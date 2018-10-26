@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import "../styles/MemoryGame.css";
+import "../styles/GuessingGame.css";
 
-class MemoryGame extends Component {
+class GuessingGame extends Component {
 
   constructor() {
     super();
@@ -13,8 +13,8 @@ class MemoryGame extends Component {
   }
   
   render() { 
-    return ( <div>MemoryGame</div> );
+    return ( <div>GuessingGame</div> );
   }
 }
  
-export default MemoryGame;
+export default GuessingGame;
