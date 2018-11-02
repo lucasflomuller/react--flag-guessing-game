@@ -50,19 +50,36 @@ class GuessingGame extends Component {
     return shuffle(options);
   }
 
+  onGuess = guess => {
+    // implement code
+  };
+
+  onNext = () => {
+    // implement
+  };
+
   render() {
     const { error, countries, options, correctAnswer, answerText } = this.state;
     let output = <div>Loading...</div>;
     if (error) {
-      output = <h1>Error, please try again</h1>;
+      output = <h1>{"Error, please try again"}</h1>;
     } else {
       if (correctAnswer !== undefined) {
         const { flag, name } = countries[correctAnswer];
-        const opts = options.map(opt => ({
-          id: opt,
+        const opts = options.map((opt, i) => ({
+          id: i,
           name: countries[opt].name
         }));
-        output = <FlagQuestion answerText={name} />;
+        output = (
+          <FlagQuestion
+            answerText={answerText}
+            correctAnswer={name}
+            flagImage={flag}
+            options={opts}
+            onGuess={this.onGuess}
+            onNext={this.onNext}
+          />
+        );
       }
     }
 
