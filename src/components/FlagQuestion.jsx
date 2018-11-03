@@ -8,19 +8,25 @@ class FlagQuestion extends Component {
     };
   }
 
-  handleChange = () => {
+  handleChange(optId) {
     // Implement change
+    this.setState({ selectedCountry: optId });
+  }
+
+  handleGuess = e => {
+    this.props.onGuess(e, this.state.selectedCountry);
+    this.setState({ guessed: true });
   };
 
   render() {
-    const { correctAnswer, flagImage, options } = this.props;
+    const { options } = this.props;
     let opts = options.map(opt => (
       <label key={opt.id}>
         <input
           type="radio"
           value={opt.id}
           checked={opt.checked}
-          // onChange={handleChange}
+          onChange={() => this.handleChange(opt.id)}
           name="flag-choice"
         />
         {opt.name}
@@ -28,8 +34,10 @@ class FlagQuestion extends Component {
     ));
     return (
       <div className="flag-question">
-        <form>{opts}</form>
-        <img src={flagImage} alt="Flag" />
+        <form>
+          {opts}
+          <button onClick={this.handleGuess.bind(this)}>Guess!</button>
+        </form>
       </div>
     );
   }

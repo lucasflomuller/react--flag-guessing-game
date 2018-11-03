@@ -7,7 +7,7 @@ class GuessingGame extends Component {
   constructor() {
     super();
     this.state = {
-      error: null,
+      error: false,
       options: [],
       correctAnswer: undefined,
       answerText: undefined,
@@ -27,7 +27,6 @@ class GuessingGame extends Component {
             options,
             countries
           });
-          console.log(this.state);
         },
         // Handling error
         error => {
@@ -50,8 +49,14 @@ class GuessingGame extends Component {
     return shuffle(options);
   }
 
-  onGuess = guess => {
-    // implement code
+  onGuess = (e, guess) => {
+    e.preventDefault();
+    const { correctAnswer } = this.state;
+    if(correctAnswer === guess) {
+      console.log("FUNCITONO")
+    } else {
+      console.log("LEITER DE CABRITA")
+    }
   };
 
   onNext = () => {
@@ -65,21 +70,22 @@ class GuessingGame extends Component {
       output = <h1>{"Error, please try again"}</h1>;
     } else {
       if (correctAnswer !== undefined) {
-        const { flag, name } = countries[correctAnswer];
-        const opts = options.map((opt, i) => ({
-          id: i,
+        const { flag } = countries[correctAnswer];
+        const opts = options.map((opt) => ({
+          id: opt,
           name: countries[opt].name
         }));
-        output = (
-          <FlagQuestion
+        output = [
+          <FlagQuestion key="flag-question-component"
             answerText={answerText}
-            correctAnswer={name}
+            correctAnswer={correctAnswer}
             flagImage={flag}
             options={opts}
             onGuess={this.onGuess}
             onNext={this.onNext}
-          />
-        );
+          />,
+          <img key="flag-image" src={flag} alt="Flag" />
+        ];
       }
     }
 
