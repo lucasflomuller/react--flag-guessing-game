@@ -4,22 +4,24 @@ class FlagQuestion extends Component {
   constructor() {
     super();
     this.state = {
-      selectedCountry: ""
+      selectedCountry: undefined
     };
   }
 
-  handleChange(optId) {
-    // Implement change
+  handleChange = optId => {
     this.setState({ selectedCountry: optId });
+  };
+
+  handleNewQuestion = e => {
+    this.props.newQuestion(e, this.props.countries)
   }
 
   handleGuess = e => {
     this.props.onGuess(e, this.state.selectedCountry);
-    this.setState({ guessed: true });
   };
 
   render() {
-    const { options } = this.props;
+    const { options, answerText } = this.props;
     let opts = options.map(opt => (
       <label key={opt.id}>
         <input
@@ -32,14 +34,23 @@ class FlagQuestion extends Component {
         {opt.name}
       </label>
     ));
-    return (
-      <div className="flag-question">
-        <form>
-          {opts}
-          <button onClick={this.handleGuess.bind(this)}>Guess!</button>
-        </form>
+    if (answerText !== undefined) {
+      return (
+      <div>
+        {answerText}
+        <button onClick={this.handleNewQuestion}>Next</button>
       </div>
-    );
+      );
+    } else {
+      return (
+        <div className="flag-question">
+          <form>
+            {opts}
+            <button onClick={this.handleGuess}>Guess!</button>
+          </form>
+        </div>
+      );
+    }
   }
 }
 

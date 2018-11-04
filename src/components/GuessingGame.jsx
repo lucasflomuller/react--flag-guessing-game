@@ -19,21 +19,25 @@ class GuessingGame extends Component {
     fetch("https://restcountries.eu/rest/v2/all")
       .then(data => data.json())
       .then(
-        countries => {
-          const correctAnswer = Math.floor(Math.random() * countries.length);
-          const options = this._getOptions(correctAnswer, countries);
-          this.setState({
-            correctAnswer,
-            options,
-            countries
-          });
-        },
+        countries => {this.newQuestion(undefined, countries);},
         // Handling error
         error => {
           this.setState({ error });
         }
       );
   }
+
+  newQuestion = (e, countries) => {
+    if (e !== undefined) e.preventDefault();
+    const correctAnswer = Math.floor(Math.random() * countries.length);
+    const options = this._getOptions(correctAnswer, countries);
+    this.setState({
+      correctAnswer,
+      options,
+      countries,
+      answerText: undefined
+    });
+  };
 
   _getOptions(correctOption, countries) {
     let options = [correctOption];
@@ -52,15 +56,11 @@ class GuessingGame extends Component {
   onGuess = (e, guess) => {
     e.preventDefault();
     const { correctAnswer } = this.state;
-    if(correctAnswer === guess) {
-      console.log("FUNCITONO")
+    if (correctAnswer === guess) {
+      this.setState({ answerText: "Right Answer, Congratulations" });
     } else {
-      console.log("LEITER DE CABRITA")
+      this.setState({ answerText: "Sorry, please try again" });
     }
-  };
-
-  onNext = () => {
-    // implement
   };
 
   render() {
@@ -71,18 +71,20 @@ class GuessingGame extends Component {
     } else {
       if (correctAnswer !== undefined) {
         const { flag } = countries[correctAnswer];
-        const opts = options.map((opt) => ({
+        const opts = options.map(opt => ({
           id: opt,
           name: countries[opt].name
         }));
         output = [
-          <FlagQuestion key="flag-question-component"
+          <FlagQuestion
+            key="flag-question-component"
             answerText={answerText}
             correctAnswer={correctAnswer}
             flagImage={flag}
             options={opts}
             onGuess={this.onGuess}
-            onNext={this.onNext}
+            newQuestion={this.newQuestion}
+            countries={countries}
           />,
           <img key="flag-image" src={flag} alt="Flag" />
         ];
