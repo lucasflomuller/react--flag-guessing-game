@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../styles/FlagQuestion.css";
 
 class FlagQuestion extends Component {
   constructor() {
@@ -18,6 +19,7 @@ class FlagQuestion extends Component {
 
   handleGuess = e => {
     this.props.onGuess(e, this.state.selectedCountry);
+    this.setState({ selectedCountry: undefined });
   };
 
   render() {
@@ -36,15 +38,15 @@ class FlagQuestion extends Component {
     ));
     if (answerText !== undefined) {
       return (
-      <div>
+      <div className="flag-answer">
         {answerText}
         <button onClick={this.handleNewQuestion}>Next</button>
       </div>
       );
     } else {
       return (
-        <div className="flag-question">
-          <form>
+        <div>
+          <form className="flag-form">
             {opts}
             <button onClick={this.handleGuess}>Guess!</button>
           </form>

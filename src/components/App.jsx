@@ -6,7 +6,7 @@ import GuessingGame from "./GuessingGame";
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="flag-app">
        <Header />
        <GuessingGame />
       </div>

@@ -86,7 +86,7 @@ class GuessingGame extends Component {
             newQuestion={this.newQuestion}
             countries={countries}
           />,
-          <img key="flag-image" src={flag} alt="Flag" />
+          <img className="flag-img" key="flag-image" src={flag} alt="Flag" />
         ];
       }
     }

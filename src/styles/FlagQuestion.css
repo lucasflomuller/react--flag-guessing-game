@@ -1,0 +1,19 @@
+.flag-form {
+  padding-top: 12px;
+  display: flex;
+  max-width: 1000px;
+  margin: 0 auto;
+  justify-content: space-around;
+  font-size: 1.3em;
+}
+
+.flag-answer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3em;
+}
+
+.flag-answer button {
+  margin-left: 25px;
+}
