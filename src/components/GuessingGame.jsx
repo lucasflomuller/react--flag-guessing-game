@@ -16,10 +16,10 @@ class GuessingGame extends Component {
   }
 
   componentDidMount() {
-    fetch("https://restcountries.eu/rest/v2/all")
+    fetch("https://restcountries.com/v3.1/all")
       .then(data => data.json())
       .then(
-        countries => {this.newQuestion(undefined, countries);},
+        countries => {this.newQuestion(countries);},
         // Handling error
         error => {
           this.setState({ error });
@@ -27,8 +27,7 @@ class GuessingGame extends Component {
       );
   }
 
-  newQuestion = (e, countries) => {
-    if (e !== undefined) e.preventDefault();
+  newQuestion = (countries) => {
     const correctAnswer = Math.floor(Math.random() * countries.length);
     const options = this._getOptions(correctAnswer, countries);
     this.setState({
@@ -53,8 +52,7 @@ class GuessingGame extends Component {
     return shuffle(options);
   }
 
-  onGuess = (e, guess) => {
-    e.preventDefault();
+  onGuess = (guess) => {
     const { correctAnswer } = this.state;
     if (correctAnswer === guess) {
       this.setState({ answerText: "Right Answer, Congratulations" });
@@ -73,7 +71,7 @@ class GuessingGame extends Component {
         const { flag } = countries[correctAnswer];
         const opts = options.map(opt => ({
           id: opt,
-          name: countries[opt].name
+          name: countries[opt].name.common
         }));
         output = [
           <FlagQuestion
@@ -86,7 +84,12 @@ class GuessingGame extends Component {
             newQuestion={this.newQuestion}
             countries={countries}
           />,
-          <img className="flag-img" key="flag-image" src={flag} alt="Flag" />
+          <div style={{
+            display:"flex",
+            justifyContent:"center",
+            alignItems:"center",
+            fontSize: "128px",
+          }}>{flag}</div> 
         ];
       }
     }

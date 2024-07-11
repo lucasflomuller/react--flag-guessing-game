@@ -11,14 +11,15 @@ class FlagQuestion extends Component {
 
   handleChange = optId => {
     this.setState({ selectedCountry: optId });
+    this.handleGuess(optId);
+
+    setTimeout(() => {
+    this.props.newQuestion(this.props.countries)
+    }, 800)
   };
 
-  handleNewQuestion = e => {
-    this.props.newQuestion(e, this.props.countries)
-  }
-
-  handleGuess = e => {
-    this.props.onGuess(e, this.state.selectedCountry);
+  handleGuess = country => {
+    this.props.onGuess(country);
     this.setState({ selectedCountry: undefined });
   };
 
@@ -40,7 +41,6 @@ class FlagQuestion extends Component {
       return (
       <div className="flag-answer">
         {answerText}
-        <button onClick={this.handleNewQuestion}>Next</button>
       </div>
       );
     } else {
@@ -48,7 +48,6 @@ class FlagQuestion extends Component {
         <div>
           <form className="flag-form">
             {opts}
-            <button onClick={this.handleGuess}>Guess!</button>
           </form>
         </div>
       );
